@@ -11,6 +11,11 @@ defmodule MessageSaverWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    scope "/api", MessageSaverWeb.Api do
+      post "/actions", ActionsController, :create
+      post "/command", ActionsController, :command
+    end
   end
 
   scope "/", MessageSaverWeb do

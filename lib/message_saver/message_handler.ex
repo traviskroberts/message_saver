@@ -38,7 +38,7 @@ defmodule MessageSaver.MessageHandler do
       messages
       |> build_response()
       |> Enum.reverse()
-      |> send_messages()
+      |> send_messages(user_id)
     else
       send_confirmation("list_empty", response_url)
     end
@@ -94,12 +94,12 @@ defmodule MessageSaver.MessageHandler do
     HTTPoison.post(response_url, body, [{"Content-Type", "application/json"}])
   end
 
-  defp send_messages(formatted_messages) do
+  defp send_messages(formatted_messages, user_id) do
     body =
       URI.encode_query(%{
         token: System.get_env("SLACK_TOKEN"),
         text: "Your saved messages:",
-        channel: "U029PC91V",
+        channel: user_id,
         blocks: Poison.encode!(formatted_messages)
       })
     HTTPoison.post("https://slack.com/api/chat.postMessage", body, [{"Content-Type", "application/x-www-form-urlencoded"}])

@@ -13,3 +13,6 @@ mix phx.digest
 
 # Build the release and overwrite the existing release directory
 MIX_ENV=prod mix release --overwrite
+
+# Run migrations
+_build/prod/rel/message_saver/bin/message_saver eval "MessageSaver.Release.migrate"

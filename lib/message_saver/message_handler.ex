@@ -17,10 +17,10 @@ defmodule MessageSaver.MessageHandler do
 
   def save_message(payload) do
     attrs = %{
-      author: payload["message"]["user"],
+      author: extract_author(payload["message"]),
       channel: payload["channel"]["id"],
       permalink: get_permalink(payload),
-      text: payload["message"]["text"],
+      text: extract_text(payload["message"]),
       user_id: payload["user"]["id"]
     }
 
@@ -62,6 +62,35 @@ defmodule MessageSaver.MessageHandler do
       |> MessageFormatter.add_context(message)
       |> MessageFormatter.add_delete_button(message)
     end)
+  end
+
+  defp extract_author(message) do
+    user = Map.get(message, "user", "")
+    bot = Map.get(message, "bot_id", "")
+
+    cond do
+      String.trim(user) != "" ->
+        user
+      String.trim(bot) != "" ->
+        bot
+      true ->
+        nil
+    end
+  end
+
+  defp extract_text(message) do
+    text = Map.get(message, "text", %{})
+    attachments = Map.get(message, "attachments", [%{}])
+    fallback = Map.get(List.first(attachments), "fallback", "")
+
+    cond do
+      String.trim(text) != "" ->
+        text
+      String.trim(fallback) != "" ->
+        fallback
+      true ->
+        nil
+    end
   end
 
   defp get_permalink(payload) do

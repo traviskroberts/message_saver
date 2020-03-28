@@ -7,12 +7,11 @@ defmodule MessageSaver.MessageHandler do
     send_confirmation("clear", payload["response_url"])
   end
 
-  def handle_action(%{"actions" => [action | _], "response_url" => response_url}) do
+  def handle_action(%{"actions" => [action | _], "response_url" => response_url, "user" => %{"id" => user_id}}) do
     if action["text"]["text"] == "Delete Message" do
       Message.delete(action["value"])
+      retrieve_messages(%{"user_id" => user_id, "response_url" => response_url})
     end
-
-    send_confirmation("deleted", response_url)
   end
 
   def save_message(payload) do

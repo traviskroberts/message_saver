@@ -18,6 +18,10 @@ defmodule MessageSaverWeb.Api.ActionsController do
   end
 
   def command(conn, params) do
+    if params["command"] == "/saved" do
+      Task.async(MessageHandler, :retrieve_messages, [params])
+    end
+
     if params["command"] == "/saved_messages" && params["text"] == "list" do
       Task.async(MessageHandler, :retrieve_messages, [params])
     end

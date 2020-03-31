@@ -26,6 +26,10 @@ defmodule MessageSaverWeb.Api.ActionsController do
       Task.async(MessageHandler, :clear_messages, [params])
     end
 
+    if params["command"] == "/saved_messages" && params["text"] == "help" do
+      Task.async(MessageHandler, :help_text, [params])
+    end
+
     send_resp(conn, 204, "")
   end
 end

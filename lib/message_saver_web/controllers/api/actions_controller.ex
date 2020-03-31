@@ -17,13 +17,14 @@ defmodule MessageSaverWeb.Api.ActionsController do
     send_resp(conn, 204, "")
   end
 
-  def command(conn, params) do
-    if params["command"] == "/saved_messages" && params["text"] == "list" do
-      Task.async(MessageHandler, :retrieve_messages, [params])
-    end
-
-    if params["command"] == "/saved_messages" && params["text"] == "clear" do
-      Task.async(MessageHandler, :clear_messages, [params])
+  def command(conn, %{"command" => command, "text" => text} = params) do
+    cond do
+      command in ["/saved", "/saved_messages"] && text in ["list", ""] ->
+        Task.async(MessageHandler, :retrieve_messages, [params])
+      command == "/saved_messages" && text == "clear" ->
+        Task.async(MessageHandler, :clear_messages, [params])
+      command == "/saved_messages" && text == "help" ->
+        Task.async(MessageHandler, :help_text, [params])
     end
 
     send_resp(conn, 204, "")

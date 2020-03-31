@@ -14,6 +14,17 @@ defmodule MessageSaver.MessageHandler do
     end
   end
 
+  def help_text(%{"response_url" => response_url}) do
+    help_text = """
+      *Valid commands*:\n
+      `/saved_messages list` (or `/saved`) - list your saved messages\n
+      `/saved_messages clear` - clear all of your saved messages\n
+      `/saved_messages help` - list this help message
+    """
+    body = Poison.encode!(%{"text" => help_text, "response_type" => "ephemeral"})
+    HTTPoison.post(response_url, body, [{"Content-Type", "application/json"}])
+  end
+
   def save_message(payload) do
     attrs = %{
       author: extract_author(payload["message"]),

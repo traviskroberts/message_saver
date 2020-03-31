@@ -2,10 +2,10 @@ use Mix.Config
 
 # Configure your database
 config :message_saver, MessageSaver.Repo,
-  username: "postgres",
-  password: "postgres",
+  hostname: System.get_env("DB_HOST"),
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
   database: "message_saver_test",
-  hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,

@@ -9,7 +9,10 @@ defmodule MessageSaver.MessageHandlerTest do
     test "it deletes all of the messages for the user" do
       insert(:message, user_id: "U284981")
 
-      MessageHandler.clear_messages(%{"user_id" => "U284981", "response_url" => "http://localhost"})
+      MessageHandler.clear_messages(%{
+        "user_id" => "U284981",
+        "response_url" => "http://localhost"
+      })
 
       assert Repo.aggregate(Message, :count) == 0
     end
@@ -18,6 +21,7 @@ defmodule MessageSaver.MessageHandlerTest do
   describe "handle_action/1" do
     test "it deletes the specified message when action is 'Delete Message'" do
       message = insert(:message, user_id: "U284981")
+
       args = %{
         "actions" => [
           %{
@@ -32,6 +36,7 @@ defmodule MessageSaver.MessageHandlerTest do
           "id" => "U284981"
         }
       }
+
       MessageHandler.handle_action(args)
 
       assert Repo.aggregate(Message, :count) == 0
@@ -54,6 +59,7 @@ defmodule MessageSaver.MessageHandlerTest do
         },
         "response_url" => "http://localhost"
       }
+
       MessageHandler.save_message(args)
 
       assert Repo.aggregate(Message, :count) == 1

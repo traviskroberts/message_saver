@@ -7,7 +7,11 @@ defmodule MessageSaver.MessageHandler do
     send_confirmation("clear", response_url)
   end
 
-  def handle_action(%{"actions" => [action | _], "response_url" => response_url, "user" => %{"id" => user_id}}) do
+  def handle_action(%{
+        "actions" => [action | _],
+        "response_url" => response_url,
+        "user" => %{"id" => user_id}
+      }) do
     if action["text"]["text"] == "Delete Message" do
       Message.delete(action["value"])
       retrieve_messages(%{"user_id" => user_id, "response_url" => response_url})
@@ -21,6 +25,7 @@ defmodule MessageSaver.MessageHandler do
       `/saved_messages clear` - clear all of your saved messages\n
       `/saved_messages help` - list this help message
     """
+
     body = Poison.encode!(%{"text" => help_text, "response_type" => "ephemeral"})
     HTTPoison.post(response_url, body, [{"Content-Type", "application/json"}])
   end
@@ -81,8 +86,10 @@ defmodule MessageSaver.MessageHandler do
     cond do
       String.trim(user) != "" ->
         user
+
       String.trim(bot) != "" ->
         bot
+
       true ->
         nil
     end
@@ -96,8 +103,10 @@ defmodule MessageSaver.MessageHandler do
     cond do
       String.trim(text) != "" ->
         text
+
       String.trim(fallback) != "" ->
         fallback
+
       true ->
         nil
     end
@@ -111,12 +120,15 @@ defmodule MessageSaver.MessageHandler do
       "channel" => channel_id,
       "message_ts" => timestamp
     }
+
     case HTTPoison.get("https://slack.com/api/chat.getPermalink", [], params: body) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         body
         |> Poison.decode!()
         |> Map.get("permalink", "")
-      _ -> ""
+
+      _ ->
+        ""
     end
   end
 
@@ -141,6 +153,9 @@ defmodule MessageSaver.MessageHandler do
         channel: user_id,
         blocks: Poison.encode!(formatted_messages)
       })
-    HTTPoison.post("https://slack.com/api/chat.postMessage", body, [{"Content-Type", "application/x-www-form-urlencoded"}])
+
+    HTTPoison.post("https://slack.com/api/chat.postMessage", body, [
+      {"Content-Type", "application/x-www-form-urlencoded"}
+    ])
   end
 end

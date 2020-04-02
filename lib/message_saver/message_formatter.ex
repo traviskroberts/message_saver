@@ -5,7 +5,10 @@ defmodule MessageSaver.MessageFormatter do
       "elements" => [
         %{
           "type" => "mrkdwn",
-          "text" => ":speech_balloon: Posted by <@#{message.author}> in <##{message.channel}> | <#{message.permalink}|View message>"
+          "text" =>
+            ":speech_balloon: Posted by <@#{message.author}> in <##{message.channel}> | <#{
+              message.permalink
+            }|View message>"
         }
       ]
     }

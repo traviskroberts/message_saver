@@ -10,12 +10,14 @@ defmodule MessageSaver.MessageFormatterTest do
         channel: "channel-name",
         permalink: "permalink_url"
       }
+
       expected_message = %{
         "type" => "context",
         "elements" => [
           %{
             "type" => "mrkdwn",
-            "text" => ":speech_balloon: Posted by <@author_name> in <#channel-name> | <permalink_url|View message>"
+            "text" =>
+              ":speech_balloon: Posted by <@author_name> in <#channel-name> | <permalink_url|View message>"
           }
         ]
       }
@@ -27,6 +29,7 @@ defmodule MessageSaver.MessageFormatterTest do
   describe "add_delete_button/2" do
     test "it adds the delete button to the list" do
       message = %{id: 12}
+
       expected_map = %{
         "type" => "actions",
         "elements" => [
@@ -59,6 +62,7 @@ defmodule MessageSaver.MessageFormatterTest do
   describe "add_text/2" do
     test "it adds the message text to the list" do
       message = %{text: "message text"}
+
       expected_map = %{
         "type" => "section",
         "text" => %{

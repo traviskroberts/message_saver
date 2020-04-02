@@ -1,10 +1,10 @@
 defmodule MessageSaver.MessageHandler do
   alias MessageSaver.{Message, MessageFormatter, Repo}
 
-  def clear_messages(payload) do
-    Message.delete_all_for_user(payload["user_id"])
+  def clear_messages(%{"user_id" => user_id, "response_url" => response_url}) do
+    Message.delete_all_for_user(user_id)
 
-    send_confirmation("clear", payload["response_url"])
+    send_confirmation("clear", response_url)
   end
 
   def handle_action(%{"actions" => [action | _], "response_url" => response_url, "user" => %{"id" => user_id}}) do
@@ -115,8 +115,8 @@ defmodule MessageSaver.MessageHandler do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         body
         |> Poison.decode!()
-        |> Map.fetch!("permalink")
-      _ -> nil
+        |> Map.get("permalink", "")
+      _ -> ""
     end
   end
 

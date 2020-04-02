@@ -25,7 +25,7 @@ defmodule MessageSaver.Message do
   def delete_all_for_user(user_id) do
     query =
       from m in Message,
-      where: m.user_id == ^user_id
+        where: m.user_id == ^user_id
 
     Repo.delete_all(query)
   end
@@ -33,7 +33,7 @@ defmodule MessageSaver.Message do
   def delete(id) do
     query =
       from m in Message,
-      where: m.id == ^id
+        where: m.id == ^id
 
     Repo.delete_all(query)
   end
@@ -41,7 +41,7 @@ defmodule MessageSaver.Message do
   def for_user(user_id) do
     query =
       from m in Message,
-      where: m.user_id == ^user_id
+        where: m.user_id == ^user_id
 
     Repo.all(query)
   end

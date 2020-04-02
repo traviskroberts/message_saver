@@ -21,8 +21,10 @@ defmodule MessageSaverWeb.Api.ActionsController do
     cond do
       command in ["/saved", "/saved_messages"] && text in ["list", ""] ->
         Task.async(MessageHandler, :retrieve_messages, [params])
+
       command == "/saved_messages" && text == "clear" ->
         Task.async(MessageHandler, :clear_messages, [params])
+
       command == "/saved_messages" && text == "help" ->
         Task.async(MessageHandler, :help_text, [params])
     end

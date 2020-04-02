@@ -30,7 +30,7 @@ config :bugsnag,
   api_key: {:system, "BUGSNAG_API_KEY"},
   release_stage: {:system, "PHOENIX_ENV", "development"},
   notify_release_stages: ["production"],
-  app_version: Mix.Project.config[:version],
+  app_version: Mix.Project.config()[:version],
   in_project: ~r(message_saver)
 
 # Import environment specific config. This must remain at the bottom

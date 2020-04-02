@@ -45,7 +45,8 @@ defmodule MessageSaver.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.6"},
       {:poison, "~> 3.1"},
-      {:bugsnag, "~> 2.0.0"}
+      {:bugsnag, "~> 2.0.0"},
+      {:ex_machina, "~> 2.4", only: :test}
     ]
   end
 

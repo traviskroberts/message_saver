@@ -22,11 +22,14 @@ defmodule MessageSaverWeb.Api.ActionsController do
       command in ["/saved", "/saved_messages"] && text in ["list", ""] ->
         Task.async(MessageHandler, :retrieve_messages, [params])
 
-      command == "/saved_messages" && text == "clear" ->
+      command in ["/saved", "/saved_messages"] && text == "clear" ->
         Task.async(MessageHandler, :clear_messages, [params])
 
-      command == "/saved_messages" && text == "help" ->
+      command in ["/saved", "/saved_messages"] && text == "help" ->
         Task.async(MessageHandler, :help_text, [params])
+
+      true ->
+        Task.async(MessageHandler, :unknown_command, [params])
     end
 
     send_resp(conn, 204, "")

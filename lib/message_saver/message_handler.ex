@@ -1,8 +1,8 @@
 defmodule MessageSaver.MessageHandler do
-  alias MessageSaver.{Message, MessageFormatter, Repo}
+  alias MessageSaver.MessageFormatter
 
   def clear_messages(%{"user_id" => user_id, "response_url" => response_url}) do
-    Message.delete_all_for_user(user_id)
+    MessageSaver.delete_all_messages_for_user(user_id)
 
     send_confirmation("clear", response_url)
   end
@@ -13,7 +13,7 @@ defmodule MessageSaver.MessageHandler do
         "user" => %{"id" => user_id}
       }) do
     if action["text"]["text"] == "Delete Message" do
-      Message.delete(action["value"])
+      MessageSaver.delete_message_for_user(user_id, action["value"])
       retrieve_messages(%{"user_id" => user_id, "response_url" => response_url})
     end
   end
@@ -39,15 +39,13 @@ defmodule MessageSaver.MessageHandler do
       user_id: payload["user"]["id"]
     }
 
-    %Message{}
-    |> Message.changeset(attrs)
-    |> Repo.insert!()
+    MessageSaver.save_new_message(attrs)
 
     send_confirmation("save", payload["response_url"])
   end
 
   def retrieve_messages(%{"user_id" => user_id, "response_url" => response_url}) do
-    messages = Message.for_user(user_id)
+    messages = MessageSaver.messages_for_user(user_id)
 
     if Enum.count(messages) > 0 do
       messages

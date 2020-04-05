@@ -57,6 +57,10 @@ defmodule MessageSaver.MessageHandler do
     end
   end
 
+  def unknown_command(%{"response_url" => response_url}) do
+    send_confirmation("unknown", response_url)
+  end
+
   defp build_response(messages) do
     blocks = [
       %{
@@ -137,6 +141,7 @@ defmodule MessageSaver.MessageHandler do
         "deleted" -> "Message deleted!"
         "list_empty" -> "You don’t have any saved messages."
         "save" -> "Message saved!"
+        "unknown" -> "Unknown command. Use `/saved_messages help` to see available commands."
       end
 
     body = Poison.encode!(%{"text" => text, "response_type" => "ephemeral"})

@@ -1,9 +1,36 @@
 defmodule MessageSaver do
-  @moduledoc """
-  MessageSaver keeps the contexts that define your domain
-  and business logic.
+  import Ecto.Query, warn: false
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  alias MessageSaver.{Message, Repo}
+
+  def delete_all_messages_for_user(user_id) do
+    query =
+      from m in Message,
+        where: m.user_id == ^user_id
+
+    Repo.delete_all(query)
+  end
+
+  def delete_message_for_user(user_id, message_id) do
+    query =
+      from m in Message,
+        where: m.user_id == ^user_id,
+        where: m.id == ^message_id
+
+    Repo.delete_all(query)
+  end
+
+  def messages_for_user(user_id) do
+    query =
+      from m in Message,
+        where: m.user_id == ^user_id
+
+    Repo.all(query)
+  end
+
+  def save_new_message(attrs) do
+    %Message{}
+    |> Message.changeset(attrs)
+    |> Repo.insert!()
+  end
 end

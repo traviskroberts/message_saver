@@ -11,9 +11,8 @@ defmodule MessageSaver.Application do
       # Start the Ecto repository
       MessageSaver.Repo,
       # Start the endpoint when the application starts
-      MessageSaverWeb.Endpoint
-      # Starts a worker by calling: MessageSaver.Worker.start_link(arg)
-      # {MessageSaver.Worker, arg},
+      MessageSaverWeb.Endpoint,
+      MessageSaver.MessageReminderWorker
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

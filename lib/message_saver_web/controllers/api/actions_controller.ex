@@ -10,6 +10,10 @@ defmodule MessageSaverWeb.Api.ActionsController do
       Task.async(MessageHandler, :save_message, [payload])
     end
 
+    if payload["type"] == "view_submission" do
+      Task.async(MessageHandler, :update_message_options, [payload])
+    end
+
     if payload["actions"] do
       Task.async(MessageHandler, :handle_action, [payload])
     end

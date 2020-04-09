@@ -1,14 +1,17 @@
 defmodule MessageSaver.MessageFormatter do
   def add_context(list, message) do
+    text =
+      ":speech_balloon:"
+      |> add_attribution(message)
+      |> add_permalink(message)
+      |> add_notes(message)
+
     context = %{
       "type" => "context",
       "elements" => [
         %{
           "type" => "mrkdwn",
-          "text" =>
-            ":speech_balloon: Posted by <@#{message.author}> in <##{message.channel}> | <#{
-              message.permalink
-            }|View message>"
+          "text" => text
         }
       ]
     }
@@ -53,5 +56,21 @@ defmodule MessageSaver.MessageFormatter do
     }
 
     [text | list]
+  end
+
+  defp add_attribution(str, message) do
+    str <> " Posted by <@#{message.author}> in <##{message.channel}>"
+  end
+
+  defp add_notes(str, message) do
+    if message.notes do
+      str <> "\nNotes: #{message.notes}"
+    else
+      str
+    end
+  end
+
+  defp add_permalink(str, message) do
+    str <> " | <#{message.permalink}|View message>"
   end
 end

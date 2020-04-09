@@ -8,6 +8,7 @@ defmodule MessageSaver.MessageFormatterTest do
       message = %{
         author: "author_name",
         channel: "channel-name",
+        notes: "Remember this!",
         permalink: "permalink_url"
       }
 
@@ -17,7 +18,7 @@ defmodule MessageSaver.MessageFormatterTest do
           %{
             "type" => "mrkdwn",
             "text" =>
-              ":speech_balloon: Posted by <@author_name> in <#channel-name> | <permalink_url|View message>"
+              ":speech_balloon: Posted by <@author_name> in <#channel-name> | <permalink_url|View message>\nNotes: Remember this!"
           }
         ]
       }

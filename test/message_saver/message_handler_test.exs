@@ -52,14 +52,17 @@ defmodule MessageSaver.MessageHandlerTest do
         `/saved_messages help` - list this help message
       """
 
-      assert MessageHandler.help_text(%{"response_url" => "http://foo.com"}) == %{
+      expected = %{
         url: "http://foo.com",
-        body: Poison.encode!(%{
-          "text" => help_text,
-          "response_type" => "ephemeral"
-        }),
+        body:
+          Poison.encode!(%{
+            "text" => help_text,
+            "response_type" => "ephemeral"
+          }),
         headers: [{"Content-Type", "application/json"}]
       }
+
+      assert MessageHandler.help_text(%{"response_url" => "http://foo.com"}) == expected
     end
   end
 

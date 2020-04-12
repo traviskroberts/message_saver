@@ -23,12 +23,14 @@ defmodule MessageSaver.SlackAdapter do
 
   def present_modal(message_id, trigger_id) do
     headers = [{"Content-Type", "application/x-www-form-urlencoded"}]
+
     body =
       URI.encode_query(%{
         token: System.get_env("SLACK_TOKEN"),
         trigger_id: trigger_id,
         view: Poison.encode!(SlackModal.body(message_id))
       })
+
     @http_adapter.post("https://slack.com/api/views.open", body, headers)
   end
 

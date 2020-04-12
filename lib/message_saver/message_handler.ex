@@ -49,12 +49,13 @@ defmodule MessageSaver.MessageHandler do
   end
 
   def save_message(payload) do
-    message = MessageSaver.save_new_message(%{
-      author: extract_author(payload["message"]),
-      channel: payload["channel"]["id"],
-      text: extract_text(payload["message"]),
-      user_id: payload["user"]["id"]
-    })
+    message =
+      MessageSaver.save_new_message(%{
+        author: extract_author(payload["message"]),
+        channel: payload["channel"]["id"],
+        text: extract_text(payload["message"]),
+        user_id: payload["user"]["id"]
+      })
 
     Task.async(MessageHandler, :set_permalink, [message, payload])
 
@@ -103,18 +104,20 @@ defmodule MessageSaver.MessageHandler do
 
     if reminder_input["selected_option"] do
       interval = reminder_input["selected_option"]["value"]
+
       datetime =
         case interval do
           "tomorrow" ->
             Timex.now()
             |> Timex.beginning_of_day()
             |> Timex.shift(hours: 30)
+
           _ ->
             Timex.now()
             |> Timex.shift(minutes: String.to_integer(interval))
         end
 
-        MessageSaver.update_message(message_id, %{"remind_at" => datetime})
+      MessageSaver.update_message(message_id, %{"remind_at" => datetime})
     end
   end
 

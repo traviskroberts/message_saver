@@ -14,5 +14,7 @@ config :message_saver, MessageSaverWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+config :message_saver, http_adapter: MessageSaver.Test.HttpStub
+
 # Print only warnings and errors during test
 config :logger, level: :warn

@@ -36,6 +36,7 @@ defmodule MessageSaver do
 
   def get_messages_needing_reminders do
     datetime = Timex.now()
+
     query =
       from m in Message,
         where: m.remind_at < ^datetime

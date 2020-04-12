@@ -43,6 +43,29 @@ defmodule MessageSaver.MessageHandlerTest do
     end
   end
 
+  describe "help_text/1" do
+    test "it sends the help text to the user" do
+      help_text = """
+        *Valid commands*:\n
+        `/saved_messages list` (or `/saved`) - list your saved messages\n
+        `/saved_messages clear` - clear all of your saved messages\n
+        `/saved_messages help` - list this help message
+      """
+
+      expected = %{
+        url: "http://foo.com",
+        body:
+          Poison.encode!(%{
+            "text" => help_text,
+            "response_type" => "ephemeral"
+          }),
+        headers: [{"Content-Type", "application/json"}]
+      }
+
+      assert MessageHandler.help_text(%{"response_url" => "http://foo.com"}) == expected
+    end
+  end
+
   describe "save_message/1" do
     test "it saves the message to the database" do
       args = %{

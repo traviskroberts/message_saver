@@ -18,6 +18,8 @@ config :message_saver, MessageSaverWeb.Endpoint,
   pubsub: [name: MessageSaver.PubSub, adapter: Phoenix.PubSub.PG2],
   live_view: [signing_salt: "nCsIobiA"]
 
+config :message_saver, http_adapter: HTTPoison
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

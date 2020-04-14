@@ -55,7 +55,7 @@ defmodule MessageSaver do
   def save_new_message(attrs) do
     %Message{}
     |> Message.changeset(attrs)
-    |> Repo.insert!()
+    |> Repo.insert()
   end
 
   def update_message(%Message{} = message, attrs) do

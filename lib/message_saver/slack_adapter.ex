@@ -41,6 +41,7 @@ defmodule MessageSaver.SlackAdapter do
         "deleted" -> "Message deleted!"
         "list_empty" -> "You don’t have any saved messages."
         "save" -> "Message saved!"
+        "save_error" -> "There was an error saving that message."
         "unknown" -> "Unknown command. Use `/saved_messages help` to see available commands."
       end
 

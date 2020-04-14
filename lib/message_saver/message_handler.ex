@@ -49,17 +49,21 @@ defmodule MessageSaver.MessageHandler do
   end
 
   def save_message(payload) do
-    message =
-      MessageSaver.save_new_message(%{
-        author: extract_author(payload["message"]),
-        channel: payload["channel"]["id"],
-        text: extract_text(payload["message"]),
-        user_id: payload["user"]["id"]
-      })
+    attrs = %{
+      author: extract_author(payload["message"]),
+      channel: payload["channel"]["id"],
+      text: extract_text(payload["message"]),
+      user_id: payload["user"]["id"]
+    }
 
-    Task.async(MessageHandler, :set_permalink, [message, payload])
+    case MessageSaver.save_new_message(attrs) do
+      {:ok, message} ->
+        Task.async(MessageHandler, :set_permalink, [message, payload])
+        SlackAdapter.present_modal(message.id, payload["trigger_id"])
 
-    SlackAdapter.present_modal(message.id, payload["trigger_id"])
+      {:error, _changeset} ->
+        SlackAdapter.send_confirmation("save_error", payload["response_url"])
+    end
   end
 
   def send_reminder(message) do

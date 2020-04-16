@@ -34,6 +34,7 @@ defmodule MessageSaver.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.4.16"},
+      {:phoenix_live_view, "~> 0.12"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
@@ -47,7 +48,8 @@ defmodule MessageSaver.MixProject do
       {:poison, "~> 3.1"},
       {:bugsnag, "~> 2.0.0"},
       {:ex_machina, "~> 2.4", only: :test},
-      {:timex, "~> 3.0"}
+      {:timex, "~> 3.0"},
+      {:phoenix_live_dashboard, github: "phoenixframework/phoenix_live_dashboard"}
     ]
   end
 

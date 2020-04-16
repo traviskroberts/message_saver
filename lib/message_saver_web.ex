@@ -23,6 +23,8 @@ defmodule MessageSaverWeb do
 
       import Plug.Conn
       import MessageSaverWeb.Gettext
+      import Phoenix.LiveView.Controller
+
       alias MessageSaverWeb.Router.Helpers, as: Routes
     end
   end
@@ -41,6 +43,8 @@ defmodule MessageSaverWeb do
 
       import MessageSaverWeb.ErrorHelpers
       import MessageSaverWeb.Gettext
+      import Phoenix.LiveView.Helpers
+
       alias MessageSaverWeb.Router.Helpers, as: Routes
     end
   end
@@ -50,6 +54,7 @@ defmodule MessageSaverWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

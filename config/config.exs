@@ -12,11 +12,21 @@ config :message_saver,
 
 # Configures the endpoint
 config :message_saver, MessageSaverWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [
+    host: "localhost"
+  ],
   secret_key_base: "RRJK20e4w+wXT/Ome0xSRRQi9N2GhAHuQWlr3nfh8AJ3w2z3CfMnS3gU08cyo6IH",
-  render_errors: [view: MessageSaverWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: MessageSaver.PubSub, adapter: Phoenix.PubSub.PG2],
-  live_view: [signing_salt: "nCsIobiA"]
+  render_errors: [
+    view: MessageSaverWeb.ErrorView,
+    accepts: ~w(html json)
+  ],
+  pubsub: [
+    name: MessageSaver.PubSub,
+    adapter: Phoenix.PubSub.PG2
+  ],
+  live_view: [
+    signing_salt: "i4hpT4sFaKUrZUQH65OMkrp8H31cRdnq"
+  ]
 
 config :message_saver, http_adapter: HTTPoison
 

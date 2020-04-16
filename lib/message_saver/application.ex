@@ -12,6 +12,7 @@ defmodule MessageSaver.Application do
       MessageSaver.Repo,
       # Start the endpoint when the application starts
       MessageSaverWeb.Endpoint,
+      MessageSaverWeb.Telemetry,
       MessageSaver.MessageReminderWorker
     ]
 
